@@ -168,12 +168,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
             previewImg.setImage(image);
             noPreviewText = new Text("");
-            GridPane.setConstraints(noPreviewText, 0, 2, 3, 1);
+            GridPane.setConstraints(noPreviewText, 0, 5, 4, 1);
             grid.getChildren().addAll(downloadRadnomImageBtn, downloadStatusTxt, setAsWallpaperBtn, previewImg, noPreviewText,
                     resWidthText, xText, resHeightText, confirmSettingsBtn, selectCategoryCB, urlText);
         } else {
             noPreviewText = new Text("No preview available\nPlease download the image first");
-            GridPane.setConstraints(noPreviewText, 0, 2, 3, 1);
+            GridPane.setConstraints(noPreviewText, 0, 5, 4, 1);
             grid.getChildren().addAll(downloadRadnomImageBtn, downloadStatusTxt, setAsWallpaperBtn, previewImg, noPreviewText,
                     resWidthText, xText, resHeightText, confirmSettingsBtn, selectCategoryCB, urlText);
         }
