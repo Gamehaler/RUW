@@ -7,20 +7,22 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
 public class Main extends Application implements EventHandler<ActionEvent> {
 
-    private Button downloadRadnomImageBtn, setAsWallpaperBtn, confirmSettingsBtn;
+    private Button downloadRadnomImageBtn, setAsWallpaperBtn, generateURLBtn;
     private Text downloadStatusTxt, noPreviewText, xText, urlText;
     private TextField resWidthText, resHeightText;
     private ImageView previewImg;
@@ -34,7 +36,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     File imageFile = new File(destinationFile);
     Image image = new Image(imageFile.toURI().toString());
 
-    /* --- Main method --- */
     public static void main(String[] args){
         launch(args);
     }
@@ -42,7 +43,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     /* --- Setting up the Stage --- */
     @Override
     public void start(Stage primaryStage) throws Exception{
-        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("RUW - Random Unsplash Wallpaper");
 
         Scene scene = new Scene(addGridPane(), 532, 500);
@@ -67,7 +67,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             }
         } else if (event.getSource() == setAsWallpaperBtn) {
             Controller.setAsWallpaper(destinationFile);
-        } else if (event.getSource() == confirmSettingsBtn) {
+        } else if (event.getSource() == generateURLBtn) {
             resolution = resWidthText.getText() + "x" + resHeightText.getText();
 
             if (selectCategoryCB.getValue().equals("Random")) {
@@ -92,27 +92,17 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         grid.setHgap(10);
 
         // Setting up GridPane items
-        downloadRadnomImageBtn = new Button("Download image");
 
+        /* ======================== ROW 1 SETUP ======================== */
         resWidthText = new TextField("1920");
+        resWidthText.setPrefWidth(125);
         xText = new Text(" x ");
+        xText.setTextAlignment(TextAlignment.CENTER);
+        xText.setWrappingWidth(125);
         resHeightText = new TextField("1080");
-
-        setAsWallpaperBtn = new Button("Set as wallpaper");
-
-        setAsWallpaperBtn.setPrefWidth(500);
-        downloadStatusTxt = new Text("Status");
-
-        urlText = new Text("");
-
-        confirmSettingsBtn = new Button("Generate URL");
+        resHeightText.setPrefWidth(125);
 
         selectCategoryCB = new ChoiceBox<>();
-
-        setAsWallpaperBtn.setOnAction(this);
-        downloadRadnomImageBtn.setOnAction(this);
-        confirmSettingsBtn.setOnAction(this);
-
         selectCategoryCB.getItems().add("Random");
         selectCategoryCB.getItems().add("Food");
         selectCategoryCB.getItems().add("Nature");
@@ -121,38 +111,54 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         selectCategoryCB.getItems().add("Objects");
         selectCategoryCB.setValue("Random");
 
-        downloadRadnomImageBtn.setDisable(true);
-        // resWidthText.setDisable(true);
-        // resHeightText.setDisable(true);
-
         // Width text columns 1 , row 1
         GridPane.setConstraints(resWidthText, 0, 0);
-
         // x text column 2, row 1
         GridPane.setConstraints(xText, 1, 0);
-
-        // Height text columns 3, row 1
+        // Height text column 3, row 1
         GridPane.setConstraints(resHeightText, 2, 0);
-
         // Category selector column 4, row 1
         GridPane.setConstraints(selectCategoryCB, 3, 0);
+        /* ======================== ROW 1 SETUP ======================== */
 
-        // Confirm button on column 1, row 2
-        GridPane.setConstraints(confirmSettingsBtn, 0, 1);
 
-        // Generate url button
+        /* ======================== ROW 2 SETUP ======================== */
+        generateURLBtn = new Button("Generate URL");
+        generateURLBtn.setOnAction(this);
+        urlText = new Text("");
+
+        // Generate URL button on column 1, row 2
+        GridPane.setConstraints(generateURLBtn, 0, 1);
+        // Generate URL text on column 2, row 2, colspan 3, rowspan 1
         GridPane.setConstraints(urlText, 1, 1, 3, 1);
+        /* ======================== ROW 2 SETUP ======================== */
 
-        // Download button on column 1, row 2
+
+        /* ======================== ROW 3 SETUP ======================== */
+        downloadRadnomImageBtn = new Button("Download image");
+        downloadRadnomImageBtn.setOnAction(this);
+        downloadRadnomImageBtn.setDisable(true);
+        downloadStatusTxt = new Text("Status");
+
+        // Download button on column 1, row 3
         GridPane.setConstraints(downloadRadnomImageBtn, 0, 2);
-
-        // Status text on column 2, row 2
+        // Status text on column 2, row 3
         GridPane.setConstraints(downloadStatusTxt, 1, 2);
+        /* ======================== ROW 3 SETUP ======================== */
 
-        // Set as wallpaper button on column 1, row 3
+
+        /* ======================== ROW 4 SETUP ======================== */
+        setAsWallpaperBtn = new Button("Set as wallpaper");
+        setAsWallpaperBtn.setPrefWidth(500);
+        setAsWallpaperBtn.setOnAction(this);
+
+        // Set as wallpaper button on column 1, row 4, colspan 4, rowspan 1
         GridPane.setConstraints(setAsWallpaperBtn, 0, 3, 4, 1);
+        /* ======================== ROW 4 SETUP ======================== */
 
-        // resizes the image to have width of 500 while preserving the ratio and using
+
+        /* ======================== ROW 5 SETUP ======================== */
+        // Resizes the image to have the width of 500 while preserving the ratio and using
         // higher quality filtering method; this ImageView is also cached to
         // improve performance
         previewImg = new ImageView();
@@ -161,21 +167,22 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         previewImg.setSmooth(true);
         previewImg.setCache(true);
 
-        // Preview image on columns 1 and 2, row 4
-        GridPane.setConstraints(previewImg, 0, 5, 4, 1);
+        // Preview image on column 1, row 5, colspan 4, rowspan 1
+        GridPane.setConstraints(previewImg, 0, 4, 4, 1);
+        /* ======================== ROW 5 SETUP ======================== */
 
         if (imageFile.exists()) {
 
             previewImg.setImage(image);
             noPreviewText = new Text("");
             GridPane.setConstraints(noPreviewText, 0, 5, 4, 1);
-            grid.getChildren().addAll(downloadRadnomImageBtn, downloadStatusTxt, setAsWallpaperBtn, previewImg, noPreviewText,
-                    resWidthText, xText, resHeightText, confirmSettingsBtn, selectCategoryCB, urlText);
+            grid.getChildren().addAll(downloadRadnomImageBtn, downloadStatusTxt, setAsWallpaperBtn, previewImg,
+                    noPreviewText, resWidthText, xText, resHeightText, generateURLBtn, selectCategoryCB, urlText);
         } else {
             noPreviewText = new Text("No preview available\nPlease download the image first");
             GridPane.setConstraints(noPreviewText, 0, 5, 4, 1);
-            grid.getChildren().addAll(downloadRadnomImageBtn, downloadStatusTxt, setAsWallpaperBtn, previewImg, noPreviewText,
-                    resWidthText, xText, resHeightText, confirmSettingsBtn, selectCategoryCB, urlText);
+            grid.getChildren().addAll(downloadRadnomImageBtn, downloadStatusTxt, setAsWallpaperBtn, previewImg,
+                    noPreviewText, resWidthText, xText, resHeightText, generateURLBtn, selectCategoryCB, urlText);
         }
 
         return grid;
@@ -183,7 +190,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 }
 
 /*
-Customized image downloads
+Customized image download URLs
 
 Completely random image:
 https://source.unsplash.com/random/1920x1080
