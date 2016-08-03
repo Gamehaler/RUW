@@ -48,20 +48,19 @@ public class Controller implements Runnable {
     }
 
 
-
+    /* --- Downloads and saves image --- */
     @Override
     public void run() {
         if (main != null && destinationFile != null && imageUrl != null) {
             try {
                 downloadImage();
-                main.onImageDownloaded();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                main.onImageDownloaded();
             }
         }
     }
-
-    // TODO: downloading image in a background thread
 
     /* --- Downloading image --- */
     public void downloadImage() throws IOException {

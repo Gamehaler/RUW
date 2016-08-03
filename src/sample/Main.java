@@ -42,6 +42,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         launch(args);
     }
 
+
     @Override
     public void init() throws Exception {
         super.init();
@@ -85,6 +86,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         }
     }
 
+    /* --- Called when image is downloaded --- */
     public void onImageDownloaded(){
         downloadStatusTxt.setText("Done!");
         Image image2 = new Image(imageFile.toURI().toString());
