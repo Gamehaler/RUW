@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f130b7b2-1abd-475e-adeb-d23cfdd34089" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image.jpg" afterPath="$PROJECT_DIR$/image.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Controller.java" afterPath="$PROJECT_DIR$/src/sample/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Main.java" afterPath="$PROJECT_DIR$/src/sample/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RUW.iml" afterPath="$PROJECT_DIR$/RUW.iml" />
-    </list>
+    <list default="true" id="f130b7b2-1abd-475e-adeb-d23cfdd34089" name="Default" comment="" />
     <ignored path="RUW.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
