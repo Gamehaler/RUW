@@ -32,17 +32,25 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     private String resolution;
     private String imageUrl;
     private String destinationFile = Paths.get(".").toAbsolutePath().normalize().toString() + "\\image.jpg";
+    private Controller controller;
+    private Thread t;
 
     File imageFile = new File(destinationFile);
     Image image = new Image(imageFile.toURI().toString());
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        controller = new Controller(null, destinationFile, this);
     }
 
     /* --- Setting up the Stage --- */
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("RUW - Random Unsplash Wallpaper");
 
         Scene scene = new Scene(addGridPane(), 532, 500);
@@ -55,16 +63,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == downloadRadnomImageBtn) {
-            try {
-                Controller.downloadImage(imageUrl, destinationFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                downloadStatusTxt.setText("Done!");
-                Image image2 = new Image(imageFile.toURI().toString());
-                previewImg.setImage(image2);
-                noPreviewText.setText("");
-            }
+            t = new Thread(controller);
+            t.start();
+            downloadStatusTxt.setText("Downloading...");
+            downloadRadnomImageBtn.setDisable(true);
         } else if (event.getSource() == setAsWallpaperBtn) {
             Controller.setAsWallpaper(destinationFile);
         } else if (event.getSource() == generateURLBtn) {
@@ -77,9 +79,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             }
 
             imageUrl = basicUrl + category + resolution;
+            controller.setImageUrl(imageUrl);
             urlText.setText(imageUrl);
             downloadRadnomImageBtn.setDisable(false);
         }
+    }
+
+    public void onImageDownloaded(){
+        downloadStatusTxt.setText("Done!");
+        Image image2 = new Image(imageFile.toURI().toString());
+        previewImg.setImage(image2);
+        noPreviewText.setText("");
+        downloadRadnomImageBtn.setDisable(false);
     }
 
     /* --- Application layout --- */

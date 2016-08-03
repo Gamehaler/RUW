@@ -7,10 +7,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/External jars/JNA - Java Native Access/jna-4.2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../External jars/JNA - Java Native Access/jna-4.2.1.jar!/" />
+          <root url="jar://D:/Downloads/jna-4.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

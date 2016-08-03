@@ -12,12 +12,59 @@ import java.net.URL;
 /**
  * Created by domin on 2/9/2016.
  */
-public class Controller {
+public class Controller implements Runnable {
+    private String imageUrl = null;
+    private String destinationFile = null;
+    private Main main;
+
+    public Controller(String imageUrl, String destinationFile, Main main) {
+        this.imageUrl = imageUrl;
+        this.destinationFile = destinationFile;
+        this.main = main;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getDestinationFile() {
+        return destinationFile;
+    }
+
+    public void setDestinationFile(String destinationFile) {
+        this.destinationFile = destinationFile;
+    }
+
+    public Main getMain() {
+        return main;
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
+    }
+
+
+
+    @Override
+    public void run() {
+        if (main != null && destinationFile != null && imageUrl != null) {
+            try {
+                downloadImage();
+                main.onImageDownloaded();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     // TODO: downloading image in a background thread
 
     /* --- Downloading image --- */
-    public static void downloadImage(String imageUrl, String destinationFile) throws IOException {
+    public void downloadImage() throws IOException {
 
         InputStream is = null;
         OutputStream os = null;
