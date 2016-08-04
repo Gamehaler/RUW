@@ -87,7 +87,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     }
 
     /* --- Called when image is downloaded --- */
-    public void onImageDownloaded(){
+    public void onImageDownloaded() {
         downloadStatusTxt.setText("Done!");
         Image image2 = new Image(imageFile.toURI().toString());
         previewImg.setImage(image2);
@@ -199,6 +199,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         }
 
         return grid;
+    }
+
+    @Override
+    public void stop() throws Exception {
+        t.join();
+        super.stop();
     }
 }
 
