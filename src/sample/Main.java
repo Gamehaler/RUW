@@ -47,6 +47,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     public void init() throws Exception {
         super.init();
         controller = new Controller(null, destinationFile, this);
+        t = new Thread();
     }
 
     /* --- Setting up the Stage --- */
@@ -203,7 +204,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     @Override
     public void stop() throws Exception {
-        t.join();
+        try {
+            t.join();
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
         super.stop();
     }
 }
