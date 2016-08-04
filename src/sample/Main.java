@@ -15,9 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 public class Main extends Application implements EventHandler<ActionEvent> {
@@ -32,7 +30,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     private String resolution;
     private String imageUrl;
     private String destinationFile = Paths.get(".").toAbsolutePath().normalize().toString() + "\\image.jpg";
-    private Controller controller;
+    private Downloader controller;
     private Thread t;
 
     File imageFile = new File(destinationFile);
@@ -46,7 +44,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     @Override
     public void init() throws Exception {
         super.init();
-        controller = new Controller(null, destinationFile, this);
+        controller = new Downloader(null, destinationFile, this);
         t = new Thread();
     }
 
